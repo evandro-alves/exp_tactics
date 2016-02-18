@@ -1,0 +1,1287 @@
+<html>
+<head>
+    <title>Teste</title>
+    <style>
+        body
+        {
+            position: relative;
+            z-index: 0;
+            width: 1024px;
+            height: 600px;
+        }
+        #mapa
+        {
+            display: block; /*-webkit-transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg);*/
+            -webkit-transform-style: preserve-3d;
+            -webkit-transition: -webkit-transform 1.5s ease;
+            transform-style: preserve-3d;
+            transition: transform 1.5s ease;
+            top: 50px;
+            left: 200px;
+            position: relative;
+            z-index: 0;
+        }
+        div
+        {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+             -webkit-backface-visibility: hidden !important;
+        }
+        #frmCharacter
+        {
+            width: 100%;
+        }
+        #frmCharacter fieldset label
+        {
+            width: 20%;
+            display: inline-block;
+        }
+        .sqr
+        {
+            box-sizing: border-box;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+        }
+        /*.sqr.select, .sqr.sqrSel
+        {
+            background:rgba(200,50,50,0.7) !important;
+            opacity: 0.7;
+        }*/
+        .sqr.sqrSel, .sqr.sqrSel .top
+        {
+            background: rgba(50,50,175,1) !important;
+        }
+        .sqr.sqrSel:hover, .sqr.sqrSel .top:hover
+        {
+            background: rgba(50,50,250,1) !important;
+        }
+        .sqr.inicial, .sqr.inicial .top
+        {
+            background: rgba(250,50,50,1) !important;
+        }
+        .sqr.inicial.sel, .sqr.inicial.sel .top
+        {
+            background: rgba(255,200,200,1) !important;
+        }
+        .sqr.inicial:hover, .sqr.inicial .top:hover
+        {
+            background: rgba(250,50,50,0.5) !important;
+        }
+        .char
+        {
+            display: block;
+            position: relative;
+            z-index: 9 !important;
+            border: 1px solid #000;
+            background: rgba(200,100,100,1);
+            -webkit-transition: top 0.4s, left 0.4s, -webkit-transform 0.4s;
+        }
+        .char:hover
+        {
+            opacity: 0.5;
+        }
+        .lev
+        {
+            -webkit-transform: translateZ(40px);
+            transform: translateZ(40px);
+        }
+        .sc
+        {
+            opacity: 0.6;
+        }
+        .cubo.p-2, .p-2 *
+        {
+            background: rgba(125,125,200,1);
+        }
+        .cubo.p-1, .p-1 *
+        {
+            background: rgba(125,125,255,1);
+        }
+        .cubo.p0, .p0 *
+        {
+            background: rgba(125,255,125,1);
+        }
+        .cubo.p1, .p1 *
+        {
+            background: rgba(175,175,175,1);
+        }
+        .cubo.p2, .p2 *
+        {
+            background: rgba(125,125,125,1);
+        }
+        
+        /*.sqrSel.p-2
+        {
+            background: rgba(125,125,255,1);
+        }
+        .sqrSel.p-1
+        {
+            background: rgba(125,125,255,0.6);
+        }
+        .sqrSel.p0
+        {
+            background: rgba(125,255,125,0.8);
+        }
+        .sqrSel.p1
+        {
+            background: rgba(175,175,175,0.4);
+        }
+        .sqrSel.p2
+        {
+            background: rgba(175,175,175,0.8);
+        }*/
+        .cubo
+        {
+            position: relative !important;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+        .cubo, .cubo *
+        {
+            width: 32px;
+            height: 32px;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            position: absolute;
+            border: 1px solid rgba(0,0,0,0.5);
+        }
+        .top
+        {
+            -webkit-transform: translateZ(32px);
+            transform: translateZ(32px);
+            -webkit-transform-origin: top center;
+            transform-origin: top center;
+            position: absolute;
+            z-index: 3;
+        }
+        .right
+        {
+            -webkit-transform: rotateY(90deg);
+            -webkit-transform-origin: top right;
+            transform: rotateY(90deg);
+            transform-origin: top right;
+            position: absolute;
+            z-index: 3;
+        }
+        .front
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(32px) translateY(-32px);
+            transform: rotateX(-90deg) translateZ(32px) translateY(-32px);
+            position: absolute;
+            z-index: 3;
+        }
+        /* .bottom
+        {
+            -webkit-transform: rotateZ(0);
+            -webkit-transform-origin: bottom center;
+        }
+        .left
+        {
+            -webkit-transform: rotateY(-90deg);
+            -webkit-transform-origin: center left;
+        }
+        .back
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(-15px) translateY(-15px);
+        }        
+        .p-2 .top
+        {
+            -webkit-transform: translateZ(0px);
+            transform: translateZ(0px);
+        }
+        .p-2 .right
+        {
+            -webkit-transform: rotateY(90deg) translateX(32px);
+            transform: rotateY(90deg) translateX(32px);
+        }
+        .p-2 .front
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(16px) translateY(16px);
+            transform: rotateX(-90deg) translateZ(16px) translateY(16px);
+        }
+        .p-2 .bottom
+        {
+            -webkit-transform: translateZ(-32px);
+            transform: translateZ(-32px);
+        }
+        .p-2 .left
+        {
+            -webkit-transform: rotateY(-90deg) translateX(-32px);
+            transform: rotateY(-90deg) translateX(-32px);
+        }
+        .p-2 .back
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(-16px) translateY(16px);
+        }
+        
+        .p-1 .top
+        {
+            -webkit-transform: translateZ(15px);
+            transform: translateZ(15px);
+        }
+        .p-1 .right
+        {
+            -webkit-transform: rotateY(90deg) translateX(32px) translateZ(-16px);
+            transform: rotateY(90deg) translateX(32px) translateZ(-16px);
+            width:48px;
+        }
+        .p-1 .front
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(32px) translateY(-16px);
+            -webkit-transform-origin: top left;
+            transform: rotateX(-90deg) translateZ(32px) translateY(-16px);
+            transform-origin: top left;
+            height:48px;
+        }
+        .p-1 .bottom
+        {
+            -webkit-transform: translateZ(-15px);
+        }
+        .p-1 .left
+        {
+            -webkit-transform: rotateY(-90deg) translateX(-16px);
+        }
+        .p-1 .back
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(-16px) translateY(0px);
+        }
+        
+        .p0 .right
+        {
+            -webkit-transform: rotateY(90deg) translateX(32px) translateZ(-32px);
+            transform: rotateY(90deg) translateX(32px) translateZ(-32px);
+            width:64px;
+        }
+        .p0 .front
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(32px) translateY(-32px);
+            -webkit-transform-origin: top left;
+            transform: rotateX(-90deg) translateZ(32px) translateY(-32px);
+            transform-origin: top left;
+            height:64px;
+        }*/
+        
+        .p1 .top
+        {
+            -webkit-transform: translateZ(32px);
+            transform: translateZ(32px);
+        }
+        .p1 .right
+        {
+            -webkit-transform: rotateY(90deg);
+            transform: rotateY(90deg);
+            width: 32px;
+        }
+        .p1 .front
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(32px) translateY(-32px);
+            -webkit-transform-origin: top left;
+            transform: rotateX(-90deg) translateZ(32px) translateY(-32px);
+            transform-origin: top left;
+            height: 32px;
+        }
+        /*.p1 .bottom
+        {
+            -webkit-transform: translateZ(16px);
+        }
+        .p1 .left
+        {
+            -webkit-transform: rotateY(-90deg) translateX(16px);
+        }
+        .p1 .back
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(-16px) translateY(-32px);
+        }*/
+        
+        .p2 .top
+        {
+            -webkit-transform: translateZ(64px);
+            transform: translateZ(64px);
+        }
+        .p2 .right
+        {
+            -webkit-transform: rotateY(90deg) translateZ(-32px);
+            transform: rotateY(90deg) translateZ(-32px);
+            width: 64px;
+        }
+        .p2 .front
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(32px) translateY(-64px);
+            -webkit-transform-origin: top left;
+            transform: rotateX(-90deg) translateZ(32px) translateY(-64px);
+            transform-origin: top left;
+            height: 64px;
+        }
+        /*.p2 .bottom
+        {
+            -webkit-transform: translateZ(48px);
+        }
+        .p2 .left
+        {
+            -webkit-transform: rotateY(-90deg) translateX(48px);
+        }
+        .p2 .back
+        {
+            -webkit-transform: rotateX(-90deg) translateZ(-16px) translateY(-64px);
+        }*/
+    </style>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+</head>
+<body>
+    <nav>
+        <span onclick="document.getElementById('mapa').style.webkitTransform = 'rotateX(60deg) rotateZ(60deg) rotateY(0deg)';document.getElementById('mapa').style.transform = 'rotateX(60deg) rotateZ(60deg) rotateY(0deg)';">
+            |<<|</span> <span onclick="document.getElementById('mapa').style.webkitTransform = 'rotateX(30deg) rotateZ(45deg) rotateY(0deg)';document.getElementById('mapa').style.transform = 'rotateX(30deg) rotateZ(45deg) rotateY(0deg)';">
+                |^|</span> <span onclick="document.getElementById('mapa').style.webkitTransform = 'rotateX(60deg) rotateZ(30deg) rotateY(0deg)';document.getElementById('mapa').style.transform = 'rotateX(60deg) rotateZ(30deg) rotateY(0deg)';">
+                    |>>|</span> <span onclick="document.getElementById('mapa').style.webkitTransform = 'rotateX(60deg) rotateZ(45deg) rotateY(0deg)';document.getElementById('mapa').style.transform = 'rotateX(60deg) rotateZ(45deg) rotateY(0deg)';">
+                        |V|</span> <span onclick="document.getElementById('mapa').style.webkitTransform = 'rotateX(0deg) rotateZ(0deg) rotateY(0deg)';document.getElementById('mapa').style.transform = 'rotateX(0deg) rotateZ(0deg) rotateY(0deg)';">
+                            |Top View|</span>
+    </nav>
+    <section id="mapa">
+    </section>
+    <section id="novochar">
+         <form id="frmCharacter" action="test.html">
+    <fieldset id="caracter">
+        <legend>Personagem</legend>
+        <div>
+            <label for="isai">
+                NPC</label>
+            <input type="checkbox" id="isai" title="Nome" />
+        </div>
+            <label for="Nome">
+                Nome</label>
+            <input type="text" id="Nome" title="Nome" />
+        </div>
+        <div>
+    </fieldset>
+    <fieldset id="attributos">
+        <legend>Atributos</legend>
+        <div>
+            <label for="pontos">
+                Pontos restantes</label>
+            <input type="text" id="pontos" title="Pontos restantes" readonly="readonly" />
+            <input type="hidden" id="pontosMax" />
+        </div>
+        <div>
+            <label for="agi">
+                Agilidade</label>
+            <input type="text" id="agi" title="Agilidade" class="attr" />
+        </div>
+        <div>
+            <label for="dex">
+                Destreza</label>
+            <input type="text" id="dex" title="Destreza" class="attr" />
+        </div>
+        <div>
+            <label for="str">
+                Força</label>
+            <input type="text" id="str" title="Força" class="attr" />
+        </div>
+        <div>
+            <label for="con">
+                Constituição</label>
+            <input type="text" id="con" title="Constituição" class="attr" />
+        </div>
+        <div>
+            <label for="int">
+                Inteligência</label>
+            <input type="text" id="int" title="Inteligência" class="attr" />
+        </div>
+        <div>
+            <label for="wil">
+                Força de Vontade</label>
+            <input type="text" id="wil" title="Força de Vontade" class="attr" />
+        </div>
+        <div>
+            <label for="per">
+                Percepção</label>
+            <input type="text" id="per" title="Percepção" class="attr" />
+        </div>
+        <div>
+            <label for="car">
+                Carisma</label>
+            <input type="text" id="car" title="Carisma" class="attr" />
+        </div>
+    </fieldset>
+    <fieldset id="movimento">
+        <legend>Movimentação</legend>
+        <div>
+            <label for="mov">
+                Movimentação</label>
+            <input type="text" id="mov" title="Movimentação" readonly="readonly" />
+        </div>
+        <div>
+            <label for="jump">
+                Pulo</label>
+            <input type="text" id="jump" title="Pulo" readonly="readonly" />
+        </div>
+        <div>
+            <label for="atk">
+                Distância Ataque</label>
+            <input type="text" id="atk" title="Distância Ataque" readonly="readonly" />
+        </div>
+    </fieldset>
+    <input id="criar" type="submit" title="Criar" value="Criar" />
+    </form>
+    </section>
+    <script type="text/javascript">
+        var characters = [];
+        var npcs = [];
+        var _armas = ["bow", "sword", "axe", "spear", "hammer"];
+        var _pericias = [{
+            descricao: "arqueria",
+            percentual: 0
+        }, {
+            descricao: "espadas",
+            percentual: 0
+        }, {
+            descricao: "martelos",
+            percentual: 0
+        }, {
+            descricao: "lanças",
+            percentual: 0
+        }, {
+            descricao: "esquiva",
+            percentual: 0
+        }, {
+            descricao: "bloqueio",
+            percentual: 0
+        }, {
+            descricao: "escalada",
+            percentual: 0
+        }, {
+            descricao: "furtividade",
+            percentual: 0
+        }];
+        var _mapa = {
+            width: 16,
+            height: 16,
+            sqrWidth: 32,
+            sqrHeight: 32,
+            pesoNormal: 0,
+            pesoMin: -2,
+            pesoMax: 2,
+            el: null,
+            mapa: [[]]
+        };
+        var gameTeste = function () {
+            return {
+                init: function () {
+                    gameTeste.core.init();
+                },
+                util: function () {
+                    return {
+                        addEvent: function (element, type, handler) {
+                            if (element.addEventListener) element.addEventListener(type, handler, false);
+                            else element.attachEvent("on" + type, handler);
+                        },
+                        removeEvent: function (element, type, handler) {
+                            if (element.removeEventListener) element.removeEventListener(type, handler, false);
+                            else element.detachEvent("on" + type, handler);
+                        },
+                        ajax: function () {
+                            function getXMLHttpRequest() {
+                                var xmlhttp = new XMLHttpRequest();
+                                return xmlhttp;
+                            }
+                            function setData(xmlHttp, method, type, data) {
+                                var returnData = "";
+                                if (method == "POST")
+                                    xmlHttp.setRequestHeader("Content-type", type);
+                                else
+                                    returnData += "?";
+                                for (var key in data) {
+                                    if (data.hasOwnProperty(key)) {
+                                        returnData += key + "=" + data[key] + "&";
+                                    }
+                                }
+                                return returnData;
+                            }
+                            return {
+                                realizaAjax: function (url, method, type, data, sucess_cb, error_cb) {
+                                    var xmlHttp = getXMLHttpRequest();
+                                    xmlHttp.onreadystatechange = function () {
+                                        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                                            if (typeof sucess_cb === "function") {
+                                                sucess_cb(xmlHttp.responseText);
+                                            }
+                                        } else if (xmlHttp.readyState == 4 && xmlHttp.status != 200) {
+                                            if (typeof error_cb === "function") {
+                                                error_cb(xmlHttp.responseText);
+                                            }
+                                        }
+                                    };
+                                    if (method == "POST") {
+                                        xmlHttp.open(method, url, true);
+                                        xmlHttp.send(setData(xmlHttp, method, type, data));
+                                    }
+                                    else {
+                                        xmlHttp.open(method, url + setData(xmlHttp, method, type, data), true);
+                                        xmlHttp.send();
+                                    }
+
+                                }
+                            }
+                        } ()
+                    }
+                } (),
+                core: function () {
+                    return {
+                        init: function () {
+                            gameTeste.core.interface.init();
+                        },
+                        interface: function () {
+                            function initNovoChar() {
+                                //                                var sectionNovoChar = document.getElementById("novochar");
+                                //                                while (sectionNovoChar.firstChild) {
+                                //                                    sectionNovoChar.removeChild(sectionNovoChar.firstChild);
+                                //                                }
+                                //                                //'<input type="button" id="btnNovoChar" value="Novo Char"/>'
+                                //                                var input = document.createElement("input");
+                                //                                input.id = "btnNovoChar";
+                                //                                input.value = "Novo Char";
+                                //                                input.type = "button";
+                                //                                sectionNovoChar.appendChild(input);
+                            }
+                            return {
+                                init: function () {
+                                    gameTeste.mapa.init();
+                                    gameTeste.core.interface.evt.init();
+                                },
+                                evt: function () {
+                                    function bindSubmit() {
+                                        gameTeste.util.addEvent(document.getElementById("frmCharacter"), "submit", function (e) {
+                                            e.preventDefault();
+                                            e.returnValue = false;
+                                            var tile = document.getElementsByClassName("sel")[0];
+                                            if (tile) {
+                                                var posInit = gameTeste.mapa.quadrados.quadrado.getById(tile.id);
+                                                if (posInit) {
+                                                    e.preventDefault();
+                                                    var _char = gameTeste.character.getNewChar();
+                                                    _char.nome = document.getElementById("frmCharacter").Nome.value;
+                                                    _char.idade = 18;
+                                                    _char.mov = parseInt(document.getElementById("frmCharacter").mov.value);
+                                                    _char.atk = parseInt(document.getElementById("frmCharacter").atk.value);
+                                                    _char.jump = parseInt(document.getElementById("frmCharacter").jump.value);
+                                                    _char.isAI = document.getElementById("frmCharacter").isai.checked;
+                                                    _char.atributos = {
+                                                        agi: parseInt(document.getElementById("frmCharacter").agi.value),
+                                                        dex: parseInt(document.getElementById("frmCharacter").dex.value),
+                                                        str: parseInt(document.getElementById("frmCharacter").str.value),
+                                                        con: parseInt(document.getElementById("frmCharacter").con.value),
+                                                        int: parseInt(document.getElementById("frmCharacter").int.value),
+                                                        wil: parseInt(document.getElementById("frmCharacter").wil.value),
+                                                        per: parseInt(document.getElementById("frmCharacter").per.value),
+                                                        car: parseInt(document.getElementById("frmCharacter").car.value),
+                                                        luk: parseInt(document.getElementById("frmCharacter").car.value) / 2
+                                                    };
+                                                    gameTeste.character.initChar(posInit.x, posInit.y, _char, document.getElementById("frmCharacter").isai.checked);
+                                                    gameTeste.mapa.removePosicoesIniciais();
+                                                    initNovoChar();
+                                                }
+                                            } else
+                                                alert("Selecione uma posição inicial");
+                                            return false;
+                                        });
+                                    }
+                                    function formChar() {
+                                        document.getElementById("frmCharacter").pontosMax.value = 101;
+                                        var pontos = document.getElementById("frmCharacter").pontos.value;
+                                        if (pontos <= 0) {
+                                            document.getElementById("frmCharacter").pontos.value = 101;
+                                        }
+                                    }
+                                    function bindEvtAtributos() {
+                                        function somenteNumeros(e) {
+                                            var code;
+                                            if (e.key)
+                                                code = e.key;
+                                            else if (e.keyCode)
+                                                code = e.keyCode;
+                                            if (code > 47 && code < 58 || code > 95 && code < 106 || code == 8 || code == 9)
+                                                return true;
+                                            e.target.value = "";
+                                            return false;
+                                        }
+                                        function verificaValores(e) {
+                                            var attrs = document.getElementsByClassName("attr");
+                                            var somaTotal = 0;
+                                            for (var a = 0; a < attrs.length; a++) {
+                                                if (attrs[a].value)
+                                                    somaTotal += parseInt(attrs[a].value);
+                                            }
+                                            if (somaTotal > document.getElementById("frmCharacter").pontosMax.value) {
+                                                alert("Soma total maior que o limite");
+                                                e.target.value = "";
+                                            } else if (e.target.value)
+                                                document.getElementById("frmCharacter").pontos.value = parseInt(document.getElementById("frmCharacter").pontosMax.value) - parseInt(somaTotal);
+                                            calculaMov();
+                                            calculaPulo();
+                                            calculaDistanciaAtk();
+                                        }
+                                        function calculaMov() {
+                                            var agi = parseInt(document.getElementById("frmCharacter").agi.value);
+                                            var mov = 0;
+                                            if (agi == 15 || agi == 16) { mov = 3; } else
+                                                if (agi == 17 || agi == 18) { mov = 4; } else
+                                                    if (agi > 18) { mov = Math.round((agi - 18) / 2) + 4; } else
+                                                        mov = 2;
+                                            document.getElementById("frmCharacter").mov.value = mov;
+                                        }
+                                        function calculaPulo() {
+                                            var agi = parseInt(document.getElementById("frmCharacter").agi.value);
+                                            var jump = 0;
+                                            if (agi == 15 || agi == 16) { jump = 1; } else
+                                                if (agi == 17 || agi == 18) { jump = 2; } else
+                                                    if (agi > 18) { jump = Math.round((agi - 18) / 2) + 2; } else
+                                                        jump = 1;
+                                            document.getElementById("frmCharacter").jump.value = jump;
+                                        }
+                                        function calculaDistanciaAtk() {
+                                            var dex = parseInt(document.getElementById("frmCharacter").dex.value);
+                                            var dAtk = 0;
+                                            if (dex == 15 || dex == 16) { dAtk = 1; } else
+                                                if (dex == 17 || dex == 18) { dAtk = 2; } else
+                                                    if (dex > 18) { dAtk = Math.round((dex - 18) / 2) + 2; } else
+                                                        dAtk = 1;
+                                            document.getElementById("frmCharacter").atk.value = dAtk;
+                                        }
+                                        var attrs = document.getElementsByClassName("attr");
+                                        for (var a = 0; a < attrs.length; a++) {
+                                            gameTeste.util.addEvent(attrs[a], "keyup", somenteNumeros);
+                                            gameTeste.util.addEvent(attrs[a], "change", verificaValores);
+                                        }
+                                    }
+                                    function bindChkNpc() {
+                                        function chkChange() {
+                                            var isAi = document.getElementById("frmCharacter").isai.checked;
+                                            if (isAi) {
+                                                document.getElementById("frmCharacter").Nome.style.display = "none";
+                                                document.getElementById("attributos").style.display = "none";
+                                                document.getElementById("movimento").style.display = "none";
+                                            }
+                                            else {
+                                                document.getElementById("frmCharacter").Nome.style.display = "inline-block";
+                                                document.getElementById("attributos").style.display = "block";
+                                                document.getElementById("movimento").style.display = "block";
+                                            }
+                                        }
+                                        gameTeste.util.addEvent(document.getElementById("frmCharacter").isai, "change", chkChange);
+                                    }
+                                    function bindBtnNovoChar() {
+                                        function carregarNovoCharForm() {
+                                            gameTeste.util.ajax.realizaAjax("novo.html", "GET", "html", {}, carregarNovoCharFormSuccess_cb, carregarNovoCharFormError_cb);
+                                        }
+                                        function carregarNovoCharFormSuccess_cb(ret) {
+                                            document.getElementById("novochar").innerHTML = ret;
+                                            formChar();
+                                            bindSubmit();
+                                            bindEvtAtributos();
+                                            bindChkNpc();
+                                        }
+                                        function carregarNovoCharFormError_cb() {
+                                            alert("Erro ao carregar dados do form");
+                                        }
+                                        gameTeste.util.addEvent(document.getElementById("btnNovoChar"), "click", carregarNovoCharForm);
+                                    }
+                                    return {
+                                        init: function () {
+                                            //                                            initNovoChar();
+                                            formChar();
+                                            bindSubmit();
+                                            bindEvtAtributos();
+                                            bindChkNpc();
+                                        }
+                                    }
+                                } ()
+                            }
+                        } ()
+                    }
+                } (),
+                mapa: function () {
+                    function criaCubo(h) {
+                        var cubo = document.createElement("div");
+                        cubo.className += " cubo"
+                        if (h > 0) {
+                            var top = document.createElement("div");
+                            top.className += " top";
+                            var right = document.createElement("div");
+                            right.className += " right";
+                            var front = document.createElement("div");
+                            front.className += " front";
+                            cubo.appendChild(top);
+                            cubo.appendChild(right);
+                            cubo.appendChild(front);
+                        }
+                        return cubo;
+                    }
+                    function criaQuadrado(x, y) {
+                        var h = (Math.random() * _mapa.pesoMax) + _mapa.pesoMin;
+                        var hp = 0;
+                        var pc = gameTeste.mapa.quadrados.quadrado.get(x, y - 1);
+                        var pe = gameTeste.mapa.quadrados.quadrado.get(x - 1, y);
+                        if (pc != null && pc != undefined) {
+                            hp = gameTeste.mapa.quadrados.quadrado.getPeso(x, y - 1);
+                        } else if (pe != null && pe != undefined) {
+                            hp = gameTeste.mapa.quadrados.quadrado.getPeso(x - 1, y);
+                        }
+                        if (hp != h)
+                            h = hp + ((Math.random() > 0.5) ? 1 : -1);
+                        if (h < _mapa.pesoMin)
+                            h = _mapa.pesoMin;
+                        if (h > _mapa.pesoMax)
+                            h = _mapa.pesoMax;
+                        h = Math.round(h);
+                        var sqr = criaCubo(h);
+                        sqr.className += " sqr " + "p" + h;
+                        sqr.id = "sqr_" + x + "_" + y;
+                        sqr.setAttribute("name", "sqr");
+                        sqr.style.height = _mapa.sqrHeight;
+                        sqr.style.width = _mapa.sqrWidth;
+                        return {
+                            id: sqr.id,
+                            el: sqr,
+                            x: x,
+                            y: y,
+                            h: h
+                        };
+                    }
+                    function getMapa() {
+                        return _mapa;
+                    }
+                    function clickSelectSqr(e) {
+                        var alvo = e.target;
+                        if (e.target.className.indexOf("top") > -1) {
+                            alvo = e.target.parentNode;
+                        }
+                        if (alvo.className.indexOf("sel") > -1) {
+                            alvo.className = alvo.className.replace(" sel", "");
+                        } else {
+                            var outrosSel = document.getElementsByClassName("sel");
+                            for (var o = 0; o < outrosSel.length; o++) {
+                                outrosSel[o].className = outrosSel[o].className.replace(" sel", "");
+                            }
+                            alvo.className += " sel";
+                        }
+                    }
+                    function findPath(world, c, pathStart, pathEnd) {
+
+                        var abs = Math.abs;
+                        var max = Math.max;
+                        var pow = Math.pow;
+                        var sqrt = Math.sqrt;
+
+                        var worldWidth = world[0].length;
+                        var worldHeight = world.length;
+                        var worldSize = worldWidth * worldHeight;
+
+                        var distanceFunction = ManhattanDistance;
+                        var findNeighbours = function () { };
+
+                        function ManhattanDistance(Point, Goal) {	// linear movement - no diagonals - just cardinal directions (NSEW)
+                            return abs(Point.x - Goal.x) + abs(Point.y - Goal.y);
+                        }
+
+                        function DiagonalDistance(Point, Goal) {	// diagonal movement - assumes diag dist is 1, same as cardinals
+                            return max(abs(Point.x - Goal.x), abs(Point.y - Goal.y));
+                        }
+                        function EuclideanDistance(Point, Goal) {	// diagonals are considered a little farther than cardinal directions
+                            // diagonal movement using Euclide (AC = sqrt(AB^2 + BC^2))
+                            // where AB = x2 - x1 and BC = y2 - y1 and AC will be [x3, y3]
+                            return sqrt(pow(Point.x - Goal.x, 2) + pow(Point.y - Goal.y, 2));
+                        }
+                        function canWalkHere(x, y, h) {
+                            return ((world[x] != null) &&
+                            (world[x][y] != null) &&
+                            (world[x][y].h + h >= _mapa.pesoNormal - c.jump)
+                            && world[x][y].h - h <= _mapa.pesoNormal + c.jump
+                            && world[x][y].h <= h + 1
+                            && world[x][y].h >= h - 1);
+                        };
+                        function Neighbours(x, y) {
+                            var N = y - 1,
+		                    S = y + 1,
+		                    E = x + 1,
+		                    W = x - 1,
+                            h = gameTeste.mapa.quadrados.quadrado.getPeso(x, y),
+		                    myN = N > -1 && canWalkHere(x, N, h),
+		                    myS = S < worldHeight && canWalkHere(x, S, h),
+		                    myE = E < worldWidth && canWalkHere(E, y, h),
+		                    myW = W > -1 && canWalkHere(W, y, h),
+		                    result = [];
+                            if (myN)
+                                result.push({ x: x, y: N });
+                            if (myE)
+                                result.push({ x: E, y: y });
+                            if (myS)
+                                result.push({ x: x, y: S });
+                            if (myW)
+                                result.push({ x: W, y: y });
+                            findNeighbours(myN, myS, myE, myW, N, S, E, W, result);
+                            return result;
+                        }
+
+                        function DiagonalNeighbours(myN, myS, myE, myW, N, S, E, W, result) {
+                            if (myN) {
+                                if (myE && canWalkHere(E, N))
+                                    result.push({ x: E, y: N });
+                                if (myW && canWalkHere(W, N))
+                                    result.push({ x: W, y: N });
+                            }
+                            if (myS) {
+                                if (myE && canWalkHere(E, S))
+                                    result.push({ x: E, y: S });
+                                if (myW && canWalkHere(W, S))
+                                    result.push({ x: W, y: S });
+                            }
+                        }
+
+                        function DiagonalNeighboursFree(myN, myS, myE, myW, N, S, E, W, result) {
+                            myN = N > -1;
+                            myS = S < worldHeight;
+                            myE = E < worldWidth;
+                            myW = W > -1;
+                            if (myE) {
+                                if (myN && canWalkHere(E, N))
+                                    result.push({ x: E, y: N });
+                                if (myS && canWalkHere(E, S))
+                                    result.push({ x: E, y: S });
+                            }
+                            if (myW) {
+                                if (myN && canWalkHere(W, N))
+                                    result.push({ x: W, y: N });
+                                if (myS && canWalkHere(W, S))
+                                    result.push({ x: W, y: S });
+                            }
+                        }
+
+                        function Node(Parent, Point) {
+                            var newNode = {
+                                Parent: Parent,
+                                value: Point.x + (Point.y * worldWidth),
+                                x: Point.x,
+                                y: Point.y,
+                                f: 0,
+                                g: 0
+                            };
+                            return newNode;
+                        }
+
+                        function calculatePath() {
+                            var mypathStart = Node(null, { x: pathStart[0], y: pathStart[1] });
+                            var mypathEnd = Node(null, { x: pathEnd[0], y: pathEnd[1] });
+                            var AStar = new Array(worldSize);
+                            var Open = [mypathStart];
+                            var Closed = [];
+                            var result = [];
+                            var myNeighbours;
+                            var myNode;
+                            var myPath;
+                            var length, max, min, i, j;
+                            while (length = Open.length) {
+                                max = worldSize;
+                                min = -1;
+                                for (i = 0; i < length; i++) {
+                                    if (Open[i].f < max) {
+                                        max = Open[i].f;
+                                        min = i;
+                                    }
+                                }
+                                myNode = Open.splice(min, 1)[0];
+                                if (myNode.value === mypathEnd.value) {
+                                    myPath = Closed[Closed.push(myNode) - 1];
+                                    do {
+                                        result.push(gameTeste.mapa.quadrados.quadrado.get(myPath.x, myPath.y));
+                                    }
+                                    while (myPath = myPath.Parent);
+                                    AStar = Closed = Open = [];
+                                    result.reverse();
+                                }
+                                else {
+                                    myNeighbours = Neighbours(myNode.x, myNode.y);
+                                    for (i = 0, j = myNeighbours.length; i < j; i++) {
+                                        myPath = Node(myNode, myNeighbours[i]);
+                                        if (!AStar[myPath.value]) {
+                                            myPath.g = myNode.g + distanceFunction(myNeighbours[i], myNode);
+                                            myPath.f = myPath.g + distanceFunction(myNeighbours[i], mypathEnd);
+                                            Open.push(myPath);
+                                            AStar[myPath.value] = true;
+                                        }
+                                    }
+                                    Closed.push(myNode);
+                                }
+                            }
+                            return result;
+                        }
+                        return calculatePath();
+
+                    }
+                    return {
+                        init: function () {
+                            getMapa().el = document.getElementById("mapa");
+                            getMapa().el.style.width = getMapa().width * getMapa().sqrWidth;
+                            getMapa().el.style.height = getMapa().height * getMapa().sqrHeight;
+                            for (x = 0; x < getMapa().width; ++x) {
+                                getMapa().mapa[x] = [];
+                                for (y = 0; y < getMapa().height; ++y) {
+                                    var sqr = criaQuadrado(x, y);
+                                    getMapa().el.appendChild(sqr.el);
+                                    getMapa().mapa[x][y] = sqr;
+                                }
+                            }
+                            gameTeste.mapa.setPosicoesIniciais();
+                            gameTeste.mapa.quadrados.evt.init()
+                        },
+                        linha: function () {
+                            return {
+                                get: function (x) {
+                                    if (x >= 0 && getMapa().mapa[x] != undefined)
+                                        return getMapa().mapa[x];
+                                }
+                            }
+                        } (),
+                        setPosicoesIniciais: function () {
+                            var linhaInicial = gameTeste.mapa.linha.get(0);
+                            for (var x = 0; x < linhaInicial.length; x++) {
+                                linhaInicial[x].el.className += " inicial";
+                                gameTeste.util.addEvent(linhaInicial[x].el, "click", clickSelectSqr);
+                            }
+                            return linhaInicial;
+                        },
+                        removePosicoesIniciais: function () {
+                            var linhaInicial = gameTeste.mapa.linha.get(0);
+                            for (var x = 0; x < linhaInicial.length; x++) {
+                                linhaInicial[x].el.className = linhaInicial[x].el.className.replace(" inicial", "");
+                                gameTeste.util.removeEvent(linhaInicial[x].el, "click", clickSelectSqr);
+                            }
+                        },
+                        acharCaminho: function (c, sqrInicio, sqrFim) {
+                            if (sqrInicio != undefined && sqrFim != undefined) {
+                                return findPath(getMapa().mapa, c, [sqrInicio.x, sqrInicio.y], [sqrFim.x, sqrFim.y]);
+                            } else
+                                alert("Destino Fora da Área");
+                        },
+                        getMapa: function () {
+                            return getMapa();
+                        },
+                        setMapa: function (width, height, sqrWidth, sqrHeight, pesoNormal, pesoMin, pesoMax, el) {
+                            _mapa = {
+                                width: width,
+                                height: height,
+                                sqrWidth: sqrWidth,
+                                sqrHeight: sqrHeight,
+                                pesoNormal: pesoNormal,
+                                pesoMin: pesoMin,
+                                pesoMax: pesoMax,
+                                el: el,
+                                mapa: [[]]
+                            };
+                        },
+                        quadrados: function () {
+                            return {
+                                quadrado: function () {
+                                    return {
+                                        get: function (x, y) {
+                                            if (x >= 0 && y >= 0 && getMapa().mapa[x] != undefined && getMapa().mapa[x][y] != undefined)
+                                                return getMapa().mapa[x][y];
+                                        },
+                                        getById: function (id) {
+                                            for (x = 0; x < getMapa().mapa.length; x++) {
+                                                for (y = 0; y < getMapa().mapa[x].length; y++) {
+                                                    if (getMapa().mapa[x][y].id == id)
+                                                        return getMapa().mapa[x][y];
+                                                }
+                                            }
+                                        },
+                                        getPeso: function (x, y) {
+                                            return gameTeste.mapa.quadrados.quadrado.get(x, y).h;
+                                        }
+                                    }
+                                } (),
+                                evt: function () {
+                                    return {
+                                        init: function () {
+                                        }
+                                    }
+                                } ()
+                            }
+                        } ()
+                    }
+                } (),
+                character: function () {
+                    function getNewChar(lv) {
+                        var index = gameTeste.character.getCharacters().length + 1;
+                        var id = "c_" + index;
+                        var el = document.createElement("div");
+                        el.id = id;
+                        el.className += " char";
+                        el.setAttribute("name", "char");
+                        return {
+                            index: index,
+                            id: id,
+                            nome: "",
+                            idade: 0,
+                            lv: lv,
+                            x: null,
+                            y: null,
+                            mov: null,
+                            atk: null,
+                            jump: null,
+                            pwAtk: 0,
+                            pwDef: 0,
+                            txAtk: 0,
+                            txDef: 0,
+                            sel: false,
+                            isAI: false,
+                            el: el,
+                            atributos: {
+                                agi: 0,
+                                dex: 0,
+                                str: 0,
+                                con: 0,
+                                int: 0,
+                                wil: 0,
+                                per: 0,
+                                car: 0,
+                                luk: 0
+                            },
+                            pericias: []
+                        };
+                    }
+                    function criacharacter(x, y, _char) {
+                        var map = gameTeste.mapa.getMapa();
+                        _char.x = x;
+                        _char.y = y;
+                        _char.el.style.left = (y * map.sqrHeight);
+                        _char.el.style.top = (x * map.sqrWidth) + (_char.index * map.sqrHeight);
+                        _char.el.style.height = map.sqrHeight;
+                        _char.el.style.width = map.sqrWidth;
+                        _char.el.style.webkitTransform += "translateZ(" + ((gameTeste.mapa.quadrados.quadrado.getPeso(x, y) * 16) + 48) + "px)";
+                        map.el.insertBefore(_char.el, map.el.firstChild);
+                        gameTeste.character.evt.clickChar(_char);
+                        return _char;
+                    }
+                    function marcarChar(c) {
+                        var charObj = gameTeste.character.getChar(c.id);
+                        if (c.className.indexOf("sc") == -1) {
+                            c.className += " sc";
+                            charObj.sel = true;
+                            gameTeste.character.movimento.areaMov(gameTeste.character.getChar(c.id));
+                        } else {
+                            gameTeste.character.movimento.desmarcarAreaMov(charObj);
+                        }
+                    }
+                    return {
+                        initChar: function (x, y, _char, isAI) {
+                            if (x < gameTeste.mapa.getMapa().width && y < gameTeste.mapa.getMapa().height) {
+                                if (!isAI) {
+                                    characters.push(criacharacter(x, y, _char));
+                                } else {
+                                    var npc = criacharacter(x, y, _char);
+                                    npc.isAI = isAI;
+                                    npcs.push(npc);
+                                }
+                            }
+                        },
+                        getNewChar: function () {
+                            return getNewChar();
+                        },
+                        getChar: function (id) {
+                            for (c = 0; c < characters.length; c++) {
+                                if (characters[c].id == id) {
+                                    return characters[c];
+                                }
+                            }
+                        },
+                        getCharSelecionado: function () {
+                            for (c = 0; c < characters.length; c++) {
+                                if (characters[c].sel) {
+                                    return characters[c];
+                                }
+                            }
+                        },
+                        getCharacters: function () {
+                            return characters;
+                        },
+                        getRandomChar: function () {
+                            if (gameTeste.character.getCharacters().length > 0) {
+                                if (gameTeste.character.getCharacters().length - 1 == 0) {
+                                    return gameTeste.character.getCharacters()[0];
+                                } else {
+                                    var indexChar = (Math.random() * (gameTeste.character.getCharacters().length - 1));
+                                    return gameTeste.character.getCharacters()[indexChar];
+                                }
+                            }
+                        },
+                        setCharPosition: function (c, x, y) {
+                            c.x = x;
+                            c.y = y;
+                        },
+                        movimento: function () {
+                            function marcarAreaMov(charObj) {
+                                for (x = 0; x < gameTeste.mapa.getMapa().mapa.length; x++) {
+                                    for (y = 0; y < gameTeste.mapa.getMapa().mapa[x].length; y++) {
+                                        var tile = gameTeste.mapa.getMapa().mapa[x][y];
+                                        var caminho = gameTeste.mapa.acharCaminho(charObj, gameTeste.mapa.quadrados.quadrado.get(charObj.x, charObj.y), tile);
+                                        if (caminho.length > 0 && caminho.length <= charObj.mov) {
+                                            tile.el.className += " sqrSel";
+                                            gameTeste.util.addEvent(tile.el, "click", gameTeste.character.evt.clickMove);
+                                        } else
+                                            if (tile.el.className.indexOf("sqrSel") > -1)
+                                                tile.el.className = tile.el.className.replace(" sqrSel", "");
+                                    }
+                                }
+                            }
+                            function desmarcarAreaMov(charObj) {
+                                var sqrs = document.getElementsByName("sqr");
+                                for (c = 0; c < sqrs.length; c++) {
+                                    sqrs[c].className = sqrs[c].className.replace(" sqrSel", "");
+                                    gameTeste.util.removeEvent(sqrs[c], "click", gameTeste.character.evt.clickMove);
+                                }
+                                charObj.sel = false;
+                                charObj.el.className = charObj.el.className.replace(" sc", "");
+                            }
+                            function moveChar(c, caminho, index) {
+                                setTimeout(function () {
+                                    c.el.style.top = (caminho[index].x + c.index) * _mapa.sqrWidth;
+                                    c.el.style.left = (caminho[index].y) * _mapa.sqrHeight;
+                                    if (caminho[index].h <= 0)
+                                        setTimeout(function () { c.el.style.webkitTransform = "translateZ(20px)"; }, 200);
+                                    if (caminho[index].h > 0)
+                                        c.el.style.webkitTransform = "translateZ(" + ((caminho[index].h * 16) + 48) + "px)";
+                                    index++;
+                                    if (index <= caminho.length - 1)
+                                        moveChar(c, caminho, index);
+                                    else {
+                                        gameTeste.character.setCharPosition(c, caminho[caminho.length - 1].x, caminho[caminho.length - 1].y);
+                                        desmarcarAreaMov(c);
+                                        if (!c.isAI)
+                                            gameTeste.npc.moverNpc();
+                                    }
+                                }, 400);
+                            }
+                            return {
+                                mover: function (c, sqrDestino) {
+                                    //var c = gameTeste.character.getCharSelecionado();
+                                    var caminho = gameTeste.mapa.acharCaminho(c, gameTeste.mapa.quadrados.quadrado.get(c.x, c.y), sqrDestino);
+                                    gameTeste.character.movimento.desmarcarAreaMov(c);
+                                    if (caminho.length > 0) {
+                                        moveChar(c, caminho, 0);
+                                    } else
+                                        alert("Destino inalcançável.");
+                                },
+                                moveChar: function (c, caminho) {
+                                    if (caminho.length > 0)
+                                        moveChar(c, caminho, 0);
+                                },
+                                areaMov: function (charObj) {
+                                    if (charObj.sel)
+                                        marcarAreaMov(charObj);
+                                    else
+                                        desmarcarAreaMov(charObj);
+                                },
+                                marcarAreaMov: function (charObj) {
+                                    marcarAreaMov(charObj);
+                                },
+                                desmarcarAreaMov: function (charObj) {
+                                    desmarcarAreaMov(charObj);
+                                }
+                            }
+                        } (),
+                        evt: function () {
+                            function click(_char) {
+                                //for (c = 0; c < gameTeste.character.getCharacters().length; c++) {
+                                gameTeste.util.addEvent(_char.el, "click", function (event) {
+                                    marcarChar(this);
+                                });
+                                //}
+                            }
+                            return {
+                                init: function () {
+                                },
+                                clickChar: function (_char) {
+                                    click(_char);
+                                },
+                                clickMove: function (event) {
+                                    if (event.target.className.indexOf("top") > -1) {
+                                        var sqr = event.target.parentNode;
+                                        gameTeste.character.movimento.mover(gameTeste.character.getCharSelecionado(), gameTeste.mapa.quadrados.quadrado.getById(sqr.id));
+                                    } else
+                                        gameTeste.character.movimento.mover(gameTeste.character.getCharSelecionado(), gameTeste.mapa.quadrados.quadrado.getById(event.target.id));
+                                }
+                            }
+                        } ()
+                    }
+                } (),
+                npc: function () {
+                    function getNextNpc() {
+                        var npc = null;
+                        for (var n = 0; n < gameTeste.npc.getNpcs().length; n++) {
+                            if (gameTeste.npc.getNpcs()[n].sel) {
+                                if (gameTeste.npc.getNpcs()[n + 1] != null) {
+                                    gameTeste.npc.getNpcs()[n + 1].sel = true;
+                                    gameTeste.npc.getNpcs()[n].sel = false;
+                                    npc = gameTeste.npc.getNpcs()[n + 1];
+                                } else
+                                    npc = gameTeste.npc.getNpcs()[n];
+                                break;
+                            }
+                        }
+                        if (npc == null && gameTeste.npc.getNpcs().length > 0) {
+                            gameTeste.npc.getNpcs()[0].sel = true;
+                            npc = gameTeste.npc.getNpcs()[0];
+                        }
+                        return npc;
+                    }
+                    function acharAreaMovNpc(npc, alvo) {
+                        var path = gameTeste.mapa.acharCaminho(npc, gameTeste.mapa.quadrados.quadrado.get(npc.x, npc.y), gameTeste.mapa.quadrados.quadrado.get(alvo.x, alvo.y)); ;
+                        var caminho = [];
+                        if (path.length > 0 && path.length > npc.mov) {
+                            for (x = 0; x < _mapa.mapa.length; x++) {
+                                for (y = 0; y < _mapa.mapa[x].length; y++) {
+                                    var cm = gameTeste.mapa.acharCaminho(npc, gameTeste.mapa.quadrados.quadrado.get(npc.x, npc.y), _mapa.mapa[x][y]);
+                                    var tile = gameTeste.mapa.getMapa().mapa[x][y];
+                                    if (cm.length > 0 && cm.length <= npc.mov) {
+                                        tile.el.className += " sqrSel";
+                                        var possivel = gameTeste.mapa.acharCaminho(npc, _mapa.mapa[x][y], gameTeste.mapa.quadrados.quadrado.get(alvo.x, alvo.y));
+                                        if (path.length == 0)
+                                            path = caminho;
+                                        if (possivel != null && possivel.length <= path.length) {
+                                            path = cm;
+                                        }
+                                        caminho = cm;
+                                    } else
+                                        if (tile.el.className.indexOf("sqrSel") > -1)
+                                            tile.el.className = tile.el.className.replace(" sqrSel", "");
+                                }
+                            }
+                        }
+                        return (path.length > 0) ? path : caminho;
+                    }
+                    return {
+                        moverNpc: function () {
+                            var npc = getNextNpc();
+                            var c = gameTeste.character.getRandomChar();
+                            gameTeste.character.movimento.desmarcarAreaMov(npc);
+                            var caminho = acharAreaMovNpc(npc, c);
+                            gameTeste.character.movimento.moveChar(npc, caminho);
+                        },
+                        getNpcs: function () {
+                            return npcs;
+                        },
+                        getNpc: function (id) {
+                            for (var n = 0; n < npcs.length; n++) {
+                                if (npcs[n].id == id) {
+                                    return npcs[n];
+                                }
+                            }
+                        }
+                    }
+                } ()
+            }
+        } ();
+        window.onload = gameTeste.init;
+		</script>
+</body>
+</html>

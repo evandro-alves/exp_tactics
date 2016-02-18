@@ -1,0 +1,83 @@
+ <form id="frmCharacter" action="test.html">
+    <fieldset id="caracter">
+        <legend>Personagem</legend>
+        <div>
+            <label for="isai">
+                NPC</label>
+            <input type="checkbox" id="isai" title="Nome" />
+        </div>
+            <label for="Nome">
+                Nome</label>
+            <input type="text" id="Nome" title="Nome" />
+        </div>
+        <div>
+    </fieldset>
+    <fieldset id="attributos">
+        <legend>Atributos</legend>
+        <div>
+            <label for="pontos">
+                Pontos restantes</label>
+            <input type="text" id="pontos" title="Pontos restantes" readonly="readonly" />
+            <input type="hidden" id="pontosMax" />
+        </div>
+        <div>
+            <label for="agi">
+                Agilidade</label>
+            <input type="text" id="agi" title="Agilidade" class="attr" />
+        </div>
+        <div>
+            <label for="dex">
+                Destreza</label>
+            <input type="text" id="dex" title="Destreza" class="attr" />
+        </div>
+        <div>
+            <label for="str">
+                Força</label>
+            <input type="text" id="str" title="Força" class="attr" />
+        </div>
+        <div>
+            <label for="con">
+                Constituição</label>
+            <input type="text" id="con" title="Constituição" class="attr" />
+        </div>
+        <div>
+            <label for="int">
+                Inteligência</label>
+            <input type="text" id="int" title="Inteligência" class="attr" />
+        </div>
+        <div>
+            <label for="wil">
+                Força de Vontade</label>
+            <input type="text" id="wil" title="Força de Vontade" class="attr" />
+        </div>
+        <div>
+            <label for="per">
+                Percepção</label>
+            <input type="text" id="per" title="Percepção" class="attr" />
+        </div>
+        <div>
+            <label for="car">
+                Carisma</label>
+            <input type="text" id="car" title="Carisma" class="attr" />
+        </div>
+    </fieldset>
+    <fieldset id="movimento">
+        <legend>Movimentação</legend>
+        <div>
+            <label for="mov">
+                Movimentação</label>
+            <input type="text" id="mov" title="Movimentação" readonly="readonly" />
+        </div>
+        <div>
+            <label for="jump">
+                Pulo</label>
+            <input type="text" id="jump" title="Pulo" readonly="readonly" />
+        </div>
+        <div>
+            <label for="atk">
+                Distância Ataque</label>
+            <input type="text" id="atk" title="Distância Ataque" readonly="readonly" />
+        </div>
+    </fieldset>
+    <input id="criar" type="submit" title="Criar" value="Criar" />
+    </form>
